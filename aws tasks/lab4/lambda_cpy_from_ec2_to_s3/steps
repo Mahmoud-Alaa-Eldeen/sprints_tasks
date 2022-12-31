@@ -1,0 +1,18 @@
+create ec2 and s3 bucket
+create a role and has policies: s3 full access,ec2 full access
+assign this role to a lambda function
+lambda function code:
+import json
+import boto3
+from pprint import pprint
+def lambda_handler(event, context):
+    client = boto3.client("ec2")
+    s3 = boto3.client("s3")
+    status = client.describe_instance_status(IncludeAllInstances = True)
+    s3.upload_file("/home/test/sample.txt","bucket_name","testbk1122/testing/")
+    return {
+        'statusCode': 200,
+        'body' : json.dumps('Hello from lambda')
+    }
+deploy and test lambda
+
